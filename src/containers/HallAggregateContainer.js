@@ -77,30 +77,32 @@ class PlattegrondContainer extends React.Component
         console.log(this.state.alarm);
         console.log('Setting styles');
         let styles = [];
-        this.setState({styles: styles});
-        console.log('before loop');
-        console.log(this.state);
-        hallen.forEach((hal) => {
-            let backgroundColor;
-            if (this.state.alarm)
-                backgroundColor = 'red';
-            else
-                backgroundColor = 'white';
+        this.setState({styles: styles}, function () {   // Zie https://stackoverflow.com/questions/34800893/reactjs-need-to-click-twice-to-set-state-and-run-function
+            hallen.forEach((hal) => {
+                let backgroundColor;
+                if (this.state.alarm)
+                    backgroundColor = 'red';
+                else
+                    backgroundColor = 'white';
 
-            let style = {
-                left: hal.x,
-                top: hal.y,
-                width: hal.width,
-                height: hal.height,
-                border: "1px solid black",
-                position: "absolute",
-                textAlign: "center",
-                backgroundColor: backgroundColor
-            };
-            this.setState((prevState, props) => {this.state.styles.push(style)});
+                let style = {
+                    left: hal.x,
+                    top: hal.y,
+                    width: hal.width,
+                    height: hal.height,
+                    border: "1px solid black",
+                    position: "absolute",
+                    textAlign: "center",
+                    backgroundColor: backgroundColor
+                };
+                this.setState((prevState, props) => {this.state.styles.push(style)});
         });
-        console.log('after loop');
-        console.log(this.state);
+        //console.log('before loop');
+        //console.log(this.state);
+
+        });
+        //console.log('after loop');
+        //console.log(this.state);
     }
 
     switchLayout()
@@ -115,18 +117,18 @@ class PlattegrondContainer extends React.Component
         }
     }
 
-    slaAlarm(event)
+    slaAlarm()
     {
-        event.preventDefault();
+        //event.preventDefault();
         if (this.state.alarm === true)
         {
-            this.setState({alarm: false});
+            this.setState({alarm: false}, this.setStyles(this.state.hallenSet));
         }
         else if (this.state.alarm === false)
         {
-            this.setState({alarm: true})
+            this.setState({alarm: true}, this.setStyles(this.state.hallenSet));
         }
-        this.setStyles(this.state.hallenSet);
+        //this.setStyles(this.state.hallenSet);
     }
 
     render() {
@@ -137,7 +139,7 @@ class PlattegrondContainer extends React.Component
         }
         else if (this.state.activePage === 'Lijst')
         {
-            partial = <Lijst {...this.state} switchLayout={() => this.switchLayout()} slaAlarm={(e) => this.slaAlarm(e)}/>;
+            partial = <Lijst {...this.state} switchLayout={() => this.switchLayout()} slaAlarm={() => this.slaAlarm()}/>;
         }
 
         return (

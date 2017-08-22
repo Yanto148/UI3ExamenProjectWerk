@@ -6,7 +6,7 @@ function PlattegrondView(props)
     return(
         <div className="App">
             <p style={props.buttonStyle}><button onClick={(e) => props.switchLayout()}>Lijst</button></p>
-            <p style={props.buttonStyle}><button onClick={(e) => props.slaAlarm(e)}>Sla alarm!</button></p>
+            <p style={props.buttonStyle}><button onClick={() => props.slaAlarm()}>Sla alarm!</button></p>
             <div style={props.containerStyle}>
                 {props.hallenSet.map((hal, i) =>
                     <div key={i} style={props.styles[i]}>
